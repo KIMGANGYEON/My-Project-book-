@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { registerUser } from "../../store/thunkFunctions";
 
 interface FormData {
   email: string;
@@ -10,7 +12,8 @@ interface FormData {
   year: string;
   month: string;
   day: string;
-  gender: string;
+  men: string;
+  women: string;
 }
 const RegisterPage = () => {
   const {
@@ -20,8 +23,16 @@ const RegisterPage = () => {
     reset,
   } = useForm<FormData>({ mode: "onChange" });
 
+  const dispatch = useDispatch<any>();
+
   const onSubmit = (data: FormData) => {
-    console.log(data);
+    const body = {
+      data,
+      image: "abd",
+    };
+    console.log(body);
+
+    dispatch(registerUser(body));
     reset();
   };
 
@@ -42,6 +53,10 @@ const RegisterPage = () => {
 
   const userPhone = {
     required: "필수 필드입니다.",
+    minLength: {
+      value: 10,
+      message: "최소 10자입니다",
+    },
   };
 
   const years = Array.from(
@@ -128,11 +143,11 @@ const RegisterPage = () => {
             <p>Gender</p>
             <div>
               <label htmlFor="men">
-                <input type="checkbox" id="men" {...register("gender")} />
+                <input type="checkbox" id="men" {...register("men")} />
                 Men
               </label>
               <label htmlFor="women">
-                <input type="checkbox" id="women" {...register("gender")} />
+                <input type="checkbox" id="women" {...register("women")} />
                 Women
               </label>
             </div>

@@ -14,11 +14,27 @@ const userSchema = mongoose.Schema({
     type: String,
     minLength: 5,
   },
-  sex: {
+  phone: {
     type: String,
     unique: true,
   },
-  born: {
+  year: {
+    type: String,
+    unique: true,
+  },
+  month: {
+    type: String,
+    unique: true,
+  },
+  day: {
+    type: String,
+    unique: true,
+  },
+  men: {
+    type: String,
+    unique: true,
+  },
+  women: {
     type: String,
     unique: true,
   },

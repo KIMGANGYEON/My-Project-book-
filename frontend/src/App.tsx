@@ -4,7 +4,8 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Layout() {
   return (
     <div
@@ -15,6 +16,12 @@ function Layout() {
         height: "100vh",
       }}
     >
+      <ToastContainer
+        position="bottom-right"
+        theme="light"
+        pauseOnHover
+        autoClose={1500}
+      />
       <Navbar />
       <main style={{ marginBottom: "auto", padding: "0 100px" }}>
         <Outlet />
@@ -31,7 +38,7 @@ function App() {
         <Route index element={<LandingPage />} />
 
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/join" element={<RegisterPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Route>
     </Routes>
   );
