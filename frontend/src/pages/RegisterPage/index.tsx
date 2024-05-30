@@ -12,8 +12,8 @@ interface FormData {
   year: string;
   month: string;
   day: string;
-  men: string;
-  women: string;
+  genders: string;
+  img: string;
 }
 const RegisterPage = () => {
   const {
@@ -24,16 +24,45 @@ const RegisterPage = () => {
   } = useForm<FormData>({ mode: "onChange" });
 
   const dispatch = useDispatch<any>();
+  const [menChek, menSetCheck] = useState(false);
+  const [gender, setGenders] = useState("");
+  const [womenChek, womenSetCheck] = useState(false);
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit: SubmitHandler<FormData> = ({
+    email,
+    name,
+    password,
+    year,
+    month,
+    day,
+    phone,
+  }) => {
     const body = {
-      data,
+      email,
+      name,
+      password,
+      phone,
+      year,
+      month,
+      day,
+      genders: gender,
       image: "abd",
     };
-    console.log(body);
 
     dispatch(registerUser(body));
     reset();
+  };
+
+  const womenCheked = () => {
+    womenSetCheck(true);
+    menSetCheck(false);
+    setGenders("women");
+  };
+
+  const menChecked = () => {
+    menSetCheck(true);
+    womenSetCheck(false);
+    setGenders("men");
   };
 
   const userEmail = {
@@ -56,6 +85,12 @@ const RegisterPage = () => {
     minLength: {
       value: 10,
       message: "최소 10자입니다",
+    },
+    validate: {
+      isNumeric: (value: string) => {
+        // 숫자로만 구성되어 있는지 확인
+        return /^\d+$/.test(value) || "숫자로만 구성되어야 합니다.";
+      },
     },
   };
 
@@ -107,7 +142,7 @@ const RegisterPage = () => {
 
           <div className="login-input-box">
             <label htmlFor="phone">Phone Number</label>
-            <input type="tel" id="phone" {...register("phone", userPhone)} />
+            <input type="number" id="phone" {...register("phone", userPhone)} />
             {errors?.phone && (
               <div>
                 <span style={{ color: "red" }}>{errors.phone.message}</span>
@@ -143,11 +178,21 @@ const RegisterPage = () => {
             <p>Gender</p>
             <div>
               <label htmlFor="men">
-                <input type="checkbox" id="men" {...register("men")} />
+                <input
+                  type="checkbox"
+                  id="men"
+                  checked={menChek}
+                  onClick={menChecked}
+                />
                 Men
               </label>
               <label htmlFor="women">
-                <input type="checkbox" id="women" {...register("women")} />
+                <input
+                  type="checkbox"
+                  id="women"
+                  checked={womenChek}
+                  onClick={womenCheked}
+                />
                 Women
               </label>
             </div>

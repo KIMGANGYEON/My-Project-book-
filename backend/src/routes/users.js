@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.post("/register", async (req, res, next) => {
   try {
-    const user = new User(req.body.data);
-    console.log(user);
+    const user = new User(req.body);
+    console.log(req.body);
     await user.save();
     return res.sendStatus(200);
   } catch (error) {
